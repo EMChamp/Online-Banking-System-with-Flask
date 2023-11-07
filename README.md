@@ -9,12 +9,19 @@ This includes features like:
 * New Customer registration
 * Existing Customer Login
 * Money Withdraw & Deposit
+  
+## Dependencies ##
+1. Python3
+2. Several packages in requirements.txt (taken care of as part of "How to Run")
+3. An 8x8 Subaccount/API Key
 
-<br>
-For saving the employee and customer details, I have used json, instead of sql.
+## How to run ##
 
-<br>
-<br>
-To run this flask app, open a linux terminal here and execute 
+1. Create Virtual Environment - python3 -m venv myenv
+2. Use Virtual Environment - source myenv/bin/activate
+3. Install Requirements - pip install -r requirements.txt
+4. Run the server - pipenv run python main.py
+5. Enter localhost:5002 in the browser
 
-`export FLASK_APP=app.py` <br> `flask run`
+
+
