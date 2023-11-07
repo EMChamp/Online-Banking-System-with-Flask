@@ -21,7 +21,7 @@ This includes features like:
 2. Use Virtual Environment - source myenv/bin/activate
 3. Install Requirements - pip install -r requirements.txt
 4. Run the server - pipenv run python main.py
-5. Enter localhost:5002 in the browser
+5. Enter localhost:5055 in the browser
 
 
 
