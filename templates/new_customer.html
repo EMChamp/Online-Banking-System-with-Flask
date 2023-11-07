@@ -20,12 +20,74 @@
                 <input type="text" name="acc_num" value="" placeholder="Enter Account Number" required autocomplete="off">
             </div>
             <br>
+            <br>
             <div class="textbox">
-                <label for="name">Initial Balance:</label>
-                <input type="number" name="balance" value="" placeholder="Enter Initial Balance" required autocomplete="off">
+                <label for="name">Phone Number:</label>
+                <input type="text" name="phone_number" value="" placeholder="Enter Phone Number" required autocomplete="off">
             </div>
+            <br>
+            <div class="textbox">
+                <label for="otp">One-Time Password (OTP):</label>
+                <input type="text" name="otp" value="" placeholder="Enter OTP" required autocomplete="off">
+            </div>
+            <br>
+            <input class="btn" type="button" name="send_otp" value="Send OTP" onclick="sendOTP()">
+            <input class="btn" type="button" name="verify_otp" value="Verify OTP" onclick="verifyOTP()">
             <input class="btn" type="submit" name="" value="Create Account">
         </form>
 	</div>
+
+    <script>
+        let sessionID;
+
+        function sendOTP() {
+            // Replace 'your_api_endpoint' with the actual API endpoint for sending OTP.
+            fetch('/sendOTP', {
+                method: 'POST',
+                body: JSON.stringify({ phone_number: document.getElementsByName("phone_number")[0].value }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                sessionID = data.session_id;
+                console.log("sessionID = " + sessionID)
+            })
+            .catch(error => {
+                console.error('Error sending OTP:', error);
+            });
+        }
+
+        function verifyOTP() {
+    // Replace 'your_api_endpoint' with the actual API endpoint for OTP verification.
+    fetch('/verifyOTP', {
+        method: 'POST',
+        body: JSON.stringify({ otp_code: document.getElementsByName("otp")[0].value, session_id: sessionID }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "VERIFIED") {
+            // OTP is valid
+            displayMessage("OTP is valid");
+        } else {
+            // OTP is not valid
+            displayMessage("OTP is not valid, please retry");
+        }
+    })
+    .catch(error => {
+        console.error('Error verifying OTP:', error);
+    });
+}
+
+function displayMessage(message) {
+    // You can display the message in an alert, on the page, or in any other way you prefer
+    alert(message);
+}
+
+    </script>
 </body>
 </html>

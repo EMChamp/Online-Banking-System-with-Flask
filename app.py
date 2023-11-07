@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request, flash, redirect, url_for
 import json
 import os.path
+import sms_api_connector
 
 app = Flask(__name__)
 app.secret_key = '4u8a4ut5au1te51uea6u81e5a1u6d54n65at4y'
@@ -17,11 +18,17 @@ def home():
 def new_user():
     return render_template('new_user.html')
 
-
 @app.route('/existing-user')
 def existing_user():
     return render_template('existing_user.html')
 
+@app.route("/liveSupport")
+def live_support():
+    return render_template("liveSupport.html")
+
+@app.route("/contactUs")
+def contact_us():
+    return render_template("contactUs.html")
 
 @app.route('/customer-details', methods=['GET','POST'])
 def customer_details():
@@ -58,6 +65,21 @@ def existing_customer():
     return render_template('existing_customer.html')
 
 
+@app.route("/sendOTP", methods = ['POST'])
+def sendOTP():
+    data = request.get_json()
+    phone_number = data.get("phone_number")
+    session_id = sms_api_connector.sendOTP(phone_number)
+    print("verification form called, session id is " + str(session_id))
+    return {"session_id": session_id}
+    
+@app.route("/verifyOTP", methods = ['POST'])
+def verifyOTP():
+    data = request.get_json()
+    phone_number = data.get("otp_code")
+    session_id = data.get("session_id")
+    return sms_api_connector.verifyOTP(session_id, phone_number)
+
 @app.route('/transaction', methods=['GET','POST'])
 def transaction():
     global acc_num_global
@@ -68,7 +90,7 @@ def transaction():
                 customer=json.load(customer_file)
         if request.form['type'] == 'new':
             customer[request.form['acc_num']] = {'name' : request.form['name'],
-                                                 'number' : request.form['acc_num'], 'balance' : request.form['balance']}
+                                                 'number' : request.form['acc_num'], 'balance' : 100000}
             with open('customer.json','w') as customer_file:
                 json.dump(customer,customer_file)
         if request.form['type'] == 'existing':
@@ -111,4 +133,4 @@ def transactions():
         return render_template('home.html')
 
 
-app.run(port=5055)
+app.run(port=5055, debug=True)
