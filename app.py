@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
 import json
 import os.path
-import sms_api_connector
+import cpaas_api_connector
 
 app = Flask(__name__)
 app.secret_key = '4u8a4ut5au1te51uea6u81e5a1u6d54n65at4y'
@@ -69,7 +69,7 @@ def existing_customer():
 def sendOTP():
     data = request.get_json()
     phone_number = data.get("phone_number")
-    session_id = sms_api_connector.sendOTP(phone_number)
+    session_id = cpaas_api_connector.sendOTP(phone_number)
     print("verification form called, session id is " + str(session_id))
     return {"session_id": session_id}
     
@@ -78,7 +78,7 @@ def verifyOTP():
     data = request.get_json()
     phone_number = data.get("otp_code")
     session_id = data.get("session_id")
-    return sms_api_connector.verifyOTP(session_id, phone_number)
+    return cpaas_api_connector.verifyOTP(session_id, phone_number)
 
 @app.route('/transaction', methods=['GET','POST'])
 def transaction():
@@ -90,7 +90,7 @@ def transaction():
                 customer=json.load(customer_file)
         if request.form['type'] == 'new':
             customer[request.form['acc_num']] = {'name' : request.form['name'],
-                                                 'number' : request.form['acc_num'], 'balance' : 100000}
+                                                 'number' : request.form['acc_num'], 'balance' : 100000, 'phone_number': request.form['phone_number']}
             with open('customer.json','w') as customer_file:
                 json.dump(customer,customer_file)
         if request.form['type'] == 'existing':
@@ -100,7 +100,7 @@ def transaction():
                 return render_template('existing_customer.html')
         acc_num_global = request.form['acc_num']
         return render_template('transaction.html',name=customer[acc_num_global]['name'],
-                               number=customer[acc_num_global]['number'],balance=customer[acc_num_global]['balance'])
+                               number=customer[acc_num_global]['number'],balance=customer[acc_num_global]['balance'],phone_number=customer[acc_num_global]['phone_number'])
     else:
         return render_template('home.html')
 
@@ -122,13 +122,14 @@ def transactions():
                 customer[acc_num_global]['balance'] = str(int(customer[acc_num_global]['balance']) - int(request.form['amount']))
                 flash('TRANSACTION SUCCESSFUL!!')
                 flash('Amount Withdrawn: Rs. ' + str(request.form['amount']))
+                cpaas_api_connector.makeCall(customer[acc_num_global]['phone_number'])
             else:
                 flash('TRANSACTION FAILED!!')
                 flash('Insufficient Balance')
         with open('customer.json','w') as customer_file:
             json.dump(customer,customer_file)
         return render_template('transaction.html', name=customer[acc_num_global]['name'],
-                               number=customer[acc_num_global]['number'], balance=customer[acc_num_global]['balance'])
+                               number=customer[acc_num_global]['number'], balance=customer[acc_num_global]['balance'], phone_number=customer[acc_num_global]['phone_number'])
     else:
         return render_template('home.html')
 
