@@ -17,6 +17,7 @@ This includes features like:
 
 ## How to run ##
 
+0. Modify Variables.py with your 8x8 credentials such as: voice/sms subaccounts, api keys, sms sender id and voice phone number.
 1. Create Virtual Environment - python3 -m venv myenv
 2. Use Virtual Environment - source myenv/bin/activate
 3. Install Requirements - pip install -r requirements.txt
