@@ -21,3 +21,10 @@
     text-decoration: none;
     color: #fff; /* Set the text color for links */
 }
+
+/* Add this to your CSS file (style1.css or style.css) */
+.logo {
+    width: 50px; /* Adjust the width as needed */
+    height: 50px; /* Adjust the height as needed */
+    margin-right: 10px; /* Adjust the margin as needed */
+}
