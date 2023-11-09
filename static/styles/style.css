@@ -28,3 +28,10 @@
     height: 50px; /* Adjust the height as needed */
     margin-right: 10px; /* Adjust the margin as needed */
 }
+
+/* Add this to your CSS file (style1.css or style.css) */
+.qrcode {
+    width: 200px; /* Adjust the width as needed */
+    height: 200px; /* Adjust the height as needed */
+    margin-right: 10px; /* Adjust the margin as needed */
+}

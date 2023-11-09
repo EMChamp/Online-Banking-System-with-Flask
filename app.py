@@ -134,4 +134,4 @@ def transactions():
         return render_template('home.html')
 
 
-app.run(port=5055, debug=True)
+app.run(host='0.0.0.0', port=80, debug=True)
