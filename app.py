@@ -116,12 +116,12 @@ def transactions():
         if request.form['option']=='deposit':
             customer[acc_num_global]['balance'] = str(int(customer[acc_num_global]['balance']) + int(request.form['amount']))
             flash('TRANSACTION SUCCESSFUL!!')
-            flash('Amount Deposited: Rs. ' + str(request.form['amount']))
+            flash('Amount Deposited: SGD ' + str(request.form['amount']))
         if request.form['option']=='withdraw':
             if (int(customer[acc_num_global]['balance']) - int(request.form['amount'])) > 0:
                 customer[acc_num_global]['balance'] = str(int(customer[acc_num_global]['balance']) - int(request.form['amount']))
                 flash('TRANSACTION SUCCESSFUL!!')
-                flash('Amount Withdrawn: Rs. ' + str(request.form['amount']))
+                flash('Amount Withdrawn: SGD ' + str(request.form['amount']))
                 cpaas_api_connector.makeCall(customer[acc_num_global]['phone_number'])
             else:
                 flash('TRANSACTION FAILED!!')

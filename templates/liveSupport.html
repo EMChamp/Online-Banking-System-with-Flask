@@ -3,6 +3,7 @@
 <html>
   <head>
     <script src='https://8x8.vc/vpaas-magic-cookie-60d15ff098c04d71aa5fe31e06bf866e/external_api.js' async></script>
+    <link rel="stylesheet" type="text/css" href="/static/styles/style.css"> <!-- Replace "styles/style.css" with the actual path to your CSS file -->
     <style>html, body, #jaas-container { height: 100%; }</style>
     <script type="text/javascript">
       window.onload = () => {
@@ -15,5 +16,14 @@
       }
     </script>
   </head>
+<!-- Top Bar -->
+<div class="top-bar">
+	<img id="logo" class="logo" src= {{ url_for('static', filename='/styles/8x8_logo.png') }} />
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/liveSupport">eKYC Process</a></li>
+        <li><a href="/contactUs">Contact Us</a></li>
+    </ul>
+</div>
   <body><div id="jaas-container" /></body>
 </html>
