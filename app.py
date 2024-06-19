@@ -5,14 +5,13 @@ import cpaas_api_connector
 
 app = Flask(__name__)
 app.secret_key = '4u8a4ut5au1te51uea6u81e5a1u6d54n65at4y'
+app.config.from_object('config.DevelopmentConfig' if os.environ.get('FLASK_ENV') == 'development' else 'config.ProductionConfig')
 
 acc_num_global = {}
-
 
 @app.route('/')
 def home():
     return render_template('home.html')
-
 
 @app.route('/new-user')
 def new_user():
@@ -134,4 +133,4 @@ def transactions():
         return render_template('home.html')
 
 
-app.run(host='0.0.0.0', port=80, debug=True)
+app.run(host='0.0.0.0', port=80)

@@ -13,5 +13,8 @@ RUN pip3 install flask requests
 # Make port 80 available to the world outside this container
 EXPOSE 80
 
+# Set environment to production to disable werkzeug
+ENV FLASK_ENV=production
+
 # Run the application
 CMD ["python3", "app.py"]
