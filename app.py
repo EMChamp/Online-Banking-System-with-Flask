@@ -132,5 +132,8 @@ def transactions():
     else:
         return render_template('home.html')
 
+@app.route('/error')
+def trigger_error():
+    1 / 0  # This will cause a ZeroDivisionError
 
 app.run(host='0.0.0.0', port=80)
