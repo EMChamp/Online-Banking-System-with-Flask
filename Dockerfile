@@ -10,8 +10,8 @@ COPY . /app
 # Install any needed packages specified in requirements.txt
 RUN pip3 install flask requests
 
-# Make port 80 available to the world outside this container
-EXPOSE 80
+# Make port 5001 available to the world outside this container
+EXPOSE 5001
 
 # Set environment to production to disable werkzeug
 ENV FLASK_ENV=production
