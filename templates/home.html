@@ -5,12 +5,55 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style1.css') }}">
     <link rel="stylesheet" type="text/css" href="/static/styles/style.css"> <!-- Replace "styles/style.css" with the actual path to your CSS file -->
     <title>Member Zone</title>
+    <style>
+        /* Add this CSS for the button and the content window */
+        #toggleButton {
+            position: absolute;
+            top: 10px;
+            left: 200px;
+            padding: 10px 20px;
+            background-color: #98130c;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #contentWindow {
+            display: none; /* Initially hidden */
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 25%; /* Covers a quarter of the page */
+            height: 25%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #contentWindow p {
+            margin-top: 30px;
+        }
+
+        #closeButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body align="center">
 
 <!-- Top Bar -->
 <div class="top-bar">
-	<img id="logo" class="logo" src= {{ url_for('static', filename='/styles/8x8_logo.png') }} />
+    <button id="toggleButton">8x8 SE/AE? Click Here!</button>
+    <img id="logo" class="logo" src= {{ url_for('static', filename='/styles/8x8_logo.png') }} />
     <ul>
         <li><a href="/">Home</a></li>
         <li><a href="/liveSupport">eKYC Process</a></li>
@@ -27,5 +70,30 @@
         <input type="submit" class="btn" name="" value="Log In">
     </form>
 </div>
+
+<!-- Content window to display some text -->
+<div id="contentWindow">
+    <button id="closeButton">X</button>
+    <p>Please see <a href="https://docs.google.com/presentation/d/16mu_Ng8pKQ3Rj0GR_6is5rSd8lufVI5k/edit?usp=sharing&ouid=112808115779146378286&rtpof=true&sd=true" target="_blank">this page</a> for step-by-step instructions on how to demo this website. Refer to the walkthrough video for the bank demo or the slides for instructions.</p>
+    <p>Please note that some SMS/Voice Calls may fail depending on the destination country if the route is not setup. Reach out to <a href="mailto:rommel.sunga@8x8.com">rommel.sunga@8x8.com</a> if you encounter any issues.</p>
+</div>
+
+
+<script>
+    // JavaScript to toggle the content window
+    document.getElementById('toggleButton').addEventListener('click', function() {
+        var contentWindow = document.getElementById('contentWindow');
+        if (contentWindow.style.display === 'none' || contentWindow.style.display === '') {
+            contentWindow.style.display = 'block';
+        } else {
+            contentWindow.style.display = 'none';
+        }
+    });
+
+    // JavaScript to close the content window
+    document.getElementById('closeButton').addEventListener('click', function() {
+        document.getElementById('contentWindow').style.display = 'none';
+    });
+</script>
 </body>
 </html>
